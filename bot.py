@@ -1,5 +1,6 @@
 import os
 import json
+import asyncio
 import sqlite3
 import logging
 import threading
@@ -552,6 +553,11 @@ def run_flask():
 def main():
     init_db()
     threading.Thread(target=run_flask, daemon=True).start()
+
+    try:
+        asyncio.get_event_loop()
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
 
     app = Application.builder().token(BOT_TOKEN).build()
 
