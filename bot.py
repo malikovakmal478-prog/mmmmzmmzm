@@ -17,8 +17,8 @@ from telegram.ext import (
 # ============ CONFIG ============
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "SIZNING_BOT_TOKEN")
 ADMIN_IDS = [int(x) for x in os.environ.get("ADMIN_IDS", "0").split(",") if x.strip()]
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
-AI_MODEL = os.environ.get("AI_MODEL", "meta-llama/llama-3.1-8b-instruct:free")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+AI_MODEL = os.environ.get("AI_MODEL", "llama-3.1-8b-instant")
 DB_PATH = "kino.db"
 FREE_DAILY_SEARCH_LIMIT = 3
 
@@ -178,8 +178,8 @@ def ai_find_movie(user_text):
     )
     try:
         resp = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"},
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
             data=json.dumps({
                 "model": AI_MODEL,
                 "messages": [{"role": "user", "content": prompt}],
